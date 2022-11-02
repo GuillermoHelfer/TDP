@@ -1,0 +1,81 @@
+programa Ejercicio2-7
+procesos {modulos}
+  proceso juntarFlores(ES f: numero){nombre}
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      f:= f+1
+  fin
+
+areas
+  areaR1: AreaP{tipo}(2,2,7,7) {delimitar area}
+  areaR2: AreaP (8,2,13,7)
+  areaR3: AreaP (14,2,19,7)
+  areaRJ: AreaP (1,1,1,1)
+robots
+  robot robotito{nombre robot}
+  variables
+    maxAv: numero
+    minAv: numero
+    maxCa: numero
+    minAv: numero
+    unaAv: numero
+    unaCa: numero
+    avOri: numero
+    caOri: numero
+    f: numero
+  comenzar
+    avOri:= PosAv
+    caOri:= PosCa
+    RecibirMensaje(minAv, jefe)
+    RecibirMensaje(minCa, jefe)
+    RecibirMensaje(maxAv, jefe)
+    RecibirMensaje(maxCa, jefe)
+    f:= 0
+    repetir 3
+      Random(unaAv,minAv,maxAv)
+      Random(unaCa,minCa,maxCa)
+      Pos(unaAv,unaCa)
+      juntarFlores(f)
+      Pos(avORi,caOri)
+    EnviarMensaje(f,rj)
+  fin
+  
+  robot jefe
+  variables
+    aux:numero
+    suma:numero
+  comenzar
+    EnviarMensaje(2,r1)
+    EnviarMensaje(2,r1)
+    EnviarMensaje(7,r1)
+    EnviarMensaje(7,r1)
+
+    EnviarMensaje(8,r2)
+    EnviarMensaje(2,r2)
+    EnviarMensaje(13,r2)
+    EnviarMensaje(7,r2)
+
+    EnviarMensaje(14,r3)
+    EnviarMensaje(2,r3)
+    EnviarMensaje(19,r3)
+    EnviarMensaje(7,r3)
+    
+    repetir 3
+      RecibirMensaje(aux,*)
+      suma:= suma+aux
+    Informar(suma)
+  fin
+
+variables
+  r1: robotito
+  r2: robotito
+  r3: robotito
+  rj: jefe
+comenzar
+  AsignarArea() {robots Area}
+  Iniciar() {robots Pos}
+fin
+
+
+

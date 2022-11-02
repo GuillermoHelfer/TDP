@@ -1,0 +1,96 @@
+programa Helfer
+procesos
+  proceso juntarPapeles(ES p:numero)
+  comenzar
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+      p:= p+1
+  fin
+areas
+  areap1: AreaP (5,1,5,1)
+  areap2: AreaP (6,1,6,1)
+  areapj: AreaP (7,1,7,1)
+  areaCu: AreaC (5,5,26,26) //(5,5,25,25)
+robots
+  robot papelero
+  variables
+    p:numero
+    opo:numero
+    calle: numero
+    avenida: numero
+    miCa: numero
+    miAv: numero
+    miID: numero
+    ok:boolean
+  comenzar
+    miCa:= PosCa
+    miAv:= PosAv
+    RecibirMensaje(opo,rj)
+    repetir opo
+      Random(calle,1,20)  //(calle,5,25)
+      Random(avenida,1,20) //(avenida,5,25)
+      BloquearEsquina(avenida,calle)
+      Pos(avenida,calle)
+      juntarPapeles(p)
+      Pos(miAv,miCa)
+      LiberarEsquina(avenida,calle)
+    RecibirMensaje(miID,rj) //ponerlo antes para mejorar eficiencia
+    EnviarMensaje(p,rj)
+    RecibirMensaje(ok,rj)
+    si (ok)
+      BloquearEsquina(5,5)
+      Pos(5,5)
+  fin
+  
+  robot robotj
+  variables
+    unasOpo:numero
+    p1: numero
+    p2: numero
+    cantP1:numero
+    cantP2:numero
+  comenzar
+    p1 = 1
+    p2 = 2
+    Random(unasOpo,2,7)
+    EnviarMensaje(unasOpo,r1)
+    Random(unasOpo,2,7)
+    EnviarMensaje(unasOpo,r2)
+    EnviarMensaje(1,r1)
+    EnviarMensaje(2,r2)
+
+    RecibirMensaje(p1,r1) //esto no es concurrente y esta mal XD
+    RecibirMensaje(cantP1,p1)
+    RecibirMensaje(p2,r2)
+    RecibirMensaje(cantP2,p2)
+
+//  repetir 2
+//  RecibirMensaje(id,*)
+//  si (id = 1)
+//    RecibirMensaje (cantP1, r1)
+//  sino
+//    RecibirMensaje (cantP2, r2)
+
+    si (cantP1 > cantP2)
+      Informar(p1)
+      EnviarMensaje(V,r1)
+      EnviarMensaje(F,r2)
+    si (cantP2 > cantP1)  //sino 
+      Informar(p2)
+      EnviarMensaje(V,r2)
+      EnviarMensaje(F,r1)
+  fin
+variables
+  r1: papelero
+  r2: papelero
+  rj: robotj 
+comenzar
+  AsignarArea (r1,areap1)
+  AsignarArea (r2,areap2)
+  AsignarArea (rj,areapj)
+  AsignarArea (r1,areaCu)
+  AsignarArea (r2,areaCu)
+  Iniciar (r1,5,1)
+  Iniciar (r2,6,1)
+  Iniciar (rj,7,1)
+fin

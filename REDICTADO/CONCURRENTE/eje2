@@ -1,0 +1,50 @@
+programa ejercicio
+
+procesos {modulos}
+  proceso HacerRectangulo (ES f: numero; E lado1: numero; E lado2: numero)
+    repetir 2
+      repetir lado1
+        mover
+        tomarFlor
+        f:= f+1
+      derecha
+      repetir lado2
+        mover
+        tomarFlor
+        f:= f+1
+      derecha
+  comenzar
+
+  fin
+
+areas
+  area1: AreaC(2,2,7,5) {delimitar area}
+
+robots
+  robot robotito
+  variables
+    f: numero
+  comenzar
+    f:= 0
+    repetir 2
+      repetir 5
+        mover
+        tomarFlor
+        f:= f+1
+      derecha
+      repetir 3
+        mover
+        tomarFlor
+        f:= f+1
+      derecha
+  fin
+  
+variables
+  r1: robotito
+  r2: robotito
+comenzar
+  AsignarArea(r1, area1) {robots Area}
+  AsignarArea(r2, area2)
+  Iniciar(r1,2,2) {robots Pos}
+  Iniciar(r2,6,2)
+fin

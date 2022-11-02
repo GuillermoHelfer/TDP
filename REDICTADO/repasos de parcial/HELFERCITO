@@ -1,0 +1,127 @@
+programa HELFERCITO
+procesos {modulos}
+  proceso juntarPapeles (ES p: numero)
+  comenzar
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+      p:= p+1
+  fin
+  
+  proceso juntarFlores (ES f: numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      f:= f+1
+  fin
+  
+  proceso identificarRobots
+  comenzar
+    EnviarMensaje(1,rfa)
+    EnviarMensaje(2,rpa)
+    EnviarMensaje(3,rfv)
+    EnviarMensaje(4,rpv)
+  fin
+
+areas
+  areaPJ: AreaP(1,1,1,1)
+  areaPCA: AreaPC(2,4,12,24)
+  areaPCV: AreaPC(16,4,26,24)
+  
+robots
+  robot florero
+  variables
+    miID: numero
+    f: numero
+  comenzar
+    RecibirMensaje(miID,rj)
+    f:= 0
+    derecha
+    repetir 9
+      juntarFlores(f)
+      mover
+    juntarFlores(f)
+    EnviarMensaje(miID,rj)
+    EnviarMensaje(f,rj)
+  fin
+  
+  robot papelero
+  variables
+    miID: numero
+    p: numero
+    ca: numero
+  comenzar
+    RecibirMensaje(miID,rj)
+    p:= 0
+    repetir 7
+      juntarPapeles(p)
+      mover
+    juntarPapeles(p)
+    ca:= PosCa + 1
+    BloquearEsquina(PosAv,ca)
+    mover
+    juntarPapeles(p)
+    mover
+    LiberarEsquina(PosAv,ca)
+    repetir 10
+      juntarPapeles(p)
+      mover
+    juntarPapeles(p)
+    EnviarMensaje(miID,rj)
+    EnviarMensaje(p,rj)
+  fin
+  
+  robot jefe
+  variables
+    unID: numero
+    objAzul: numero
+    objVerde: numero
+    flores: numero
+    papeles: numero
+  comenzar
+    identificarRobots
+    objAzul:= 0
+    objVerde:= 0
+    repetir 4
+      RecibirMensaje(unID,*)
+      si(unID = 1)
+        RecibirMensaje(flores, rf1)
+        objAzul:= objAzul + flores
+      sino
+        si (unID = 2)
+          RecibirMensaje(papeles, rp2)
+          objAzul:= objAzul + papeles
+        sino
+          si (unID = 3)
+            RecibirMensaje(flores, rfv)
+            objVerde:= objVerde + flores
+          sino
+            RecibirMensaje(papeles, rpv)
+            objVerde:= objVerde + papeles
+    
+    si (objAzul > objVerde)
+      Informar('El_Ganador_es_el_Equipo_Azul', 1)
+    sino
+      Informar('El_Ganador_es_el_Equipo_Verde', 2)
+  fin
+
+variables
+  rfa: florero
+  rfv: florero
+  rpa: papelero
+  rpv: papelero
+  rj: jefe
+comenzar
+  AsignarArea(rj,areaPJ) {robots Area}
+  AsignarArea(rfa,areaPCA)
+  AsignarArea(rpa,areaPCA)
+  AsignarArea(rfv,areaPCV)
+  AsignarArea(rpv,areaPCV)
+  Iniciar(rfa,2,12)
+  Iniciar(rfv,16,12)
+  Iniciar(rpa,7,4)
+  Iniciar(rpv,21,4)
+  Iniciar(rj,1,1)
+fin
+
+
+

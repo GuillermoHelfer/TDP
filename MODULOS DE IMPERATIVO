@@ -1,0 +1,81 @@
+MODULOS VARIOS DE IMPERATIVO
+
+AGREGAR ADELANTE
+		Procedure AgregarAdelante(var l:lista; elem: tipoElemento);
+		Var 
+			nue:Lista;
+		Begin
+			New(nue);
+			nue^.datos:=elem;
+			nue^.sig:=L;
+			L:=nue;
+		End;
+
+AGREGAR ATRAS
+		procedure AgregarAtras (var pri, ult: lista; elem: tipoElemento);
+		var 
+			nue : lista;
+		begin
+			new (nue);
+			nue^.datos:= elem;
+			nue^.sig := NIL;
+			if (pri <> Nil) then
+			    ult^.sig := nue
+				else
+				pri := nue;
+			ult := nue;
+		end;
+
+INSERTAR ORDENADO
+		Procedure InsertarOrdenado ( var pri: lista; elem: tipoElemento);
+		var 
+			ant, nue, act: lista;
+		begin
+			new (nue);
+			nue^.datos := elem;
+			act := pri;
+			while (act<>NIL) and (act^.datos < elem) do begin
+				ant := act;
+				act := act^.sig;
+			end;
+			if (act = pri) then 
+				pri := nue
+			else 
+				ant^.sig := nue;
+			nue^.sig := act ;
+		end;
+
+
+SELECCION:
+			procedure Seleccion(var v:tVector; dimL:indice);
+			  var
+				i,j,act: indice;
+				item:tipoElemento;
+			  begin
+				for i:=1 to dimLog-1 do begin
+				  act := i;
+				  for j := i+1 to dimLog do
+				    if v[ j ] < v[ act ] then
+				      act:=j;
+				item := v[ act ];   
+		        v[ act ] := v[ i ];   
+			    v[ i ] := item;
+			  end;
+			end;
+
+INSERCION:
+			procedure Insercion(var v:tVector; dimL:indice);
+			var
+			  i,j,act:indice;
+			  item:tipoElemento;
+			begin
+			  for i:= 2 to dimL do begin
+				act:= v[i];
+				j:= i-1;
+				while((j>0)and(v[j]>act))do begin
+				  v[j+1]:= v[j]
+				  j:= j-1
+				end;
+			  end;
+			end;
+

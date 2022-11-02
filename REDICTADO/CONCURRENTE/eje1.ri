@@ -1,0 +1,30 @@
+programa ejercicio
+
+areas
+  area1: AreaC(2,2,7,5) {delimitar area}
+
+robots
+  robot robotito
+  variables
+    f: numero
+  comenzar
+    f:= 0
+    repetir 2
+      repetir 5
+        mover
+        tomarFlor
+        f:= f+1
+      derecha
+      repetir 3
+        mover
+        tomarFlor
+        f:= f+1
+      derecha
+  fin
+  
+variables
+  r1: robotito
+comenzar
+  AsignarArea(r1, area1) {robots Area}
+  Iniciar(r1,2,2) {robots Pos}
+fin

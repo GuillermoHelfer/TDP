@@ -1,0 +1,89 @@
+programa eje1
+areas
+  areaJ: AreaP{tipo}(1,1,1,1) {delimitar area}
+  areaR: AreaC(2,2,99,99)
+robots
+  robot robot1
+  variables
+    f: numero
+    quienSoy: numero
+  comenzar
+    RecibirMensaje(quienSoy, rj)
+    f:= 0
+    repetir 2
+      repetir 5
+        mientras (HayFlorEnLaEsquina)
+          tomarFlor
+          f:= f+1
+        mover
+      derecha
+      repetir 3
+        mientras (HayFlorEnLaEsquina)
+          tomarFlor
+          f:= f+1
+        mover
+      derecha
+    EnviarMensaje(quienSoy,rj)
+    EnviarMensaje(f,rj)
+
+  fin
+  
+  robot robot2
+  variables
+    f: numero
+    quienSoy: numero
+  comenzar
+    RecibirMensaje(quienSoy, rj)
+    f:= 0
+    repetir 2
+      repetir 8
+        mientras (HayFlorEnLaEsquina)
+          tomarFlor
+          f:= f+1
+        mover
+      derecha
+      repetir 2
+        mientras (HayFlorEnLaEsquina)
+          tomarFlor
+          f:= f+1
+        mover
+      derecha
+    EnviarMensaje(quienSoy,rj)
+    EnviarMensaje(f,rj)
+  fin
+  
+  robot jefe
+  variables
+    flores1: numero
+    flores2: numero
+    id: numero
+    aux: numero
+  comenzar
+    EnviarMensaje(1,r1)
+    EnviarMensaje(2,r2)
+    repetir 2
+      RecibirMensaje(id,*)
+      si (id = 1)
+        RecibirMensaje(flores1,r1)
+      sino
+        RecibirMensaje(flores2,r2)
+    si(flores1 > flores2)
+      Informar('Ganael', 1)
+    sino
+      Informar('Ganael', 2)
+  fin
+
+variables
+  r1: robot1
+  r2: robot2
+  rj: jefe
+comenzar
+  AsignarArea(r1,areaR) {robots Area}
+  AsignarArea(r2,areaR)
+  AsignarArea(rj,areaJ)
+  Iniciar (r1,2,2)
+  Iniciar (r2,6,2)
+  Iniciar (rj,1,1) {robots Pos}
+fin
+
+{IMPORTANTE MODULARIZAR]

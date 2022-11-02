@@ -1,0 +1,103 @@
+programa eje3-6
+
+procesos {modulos}
+  proceso juntarFlores(ES f:numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      f:= f+1
+  fin
+  
+  proceso HacerRectangulo(ES f:numero; E alto:numero)
+  comenzar
+    repetir 2
+      repetir alto
+        juntarFlores(f)
+        mover
+      derecha
+      repetir 15
+        juntarFlores(f)
+        mover
+      derecha
+  fin
+  
+areas
+  AreaR1: AreaP(2,2,2,2)
+  AreaR2: AreaP(6,6,6,6)
+  AreaRR1: AreaP(15,15,30,35)
+  AreaRR2: AreaP(40,40,55,60)
+  AreaDOS: AreaC(10,10,10,10)
+  AreaJ: AreaP(1,1,1,1)
+robots
+  robot florero
+  variables
+    f: numero
+    miEsquina: numero
+    miAv: numero
+    miCa: numero
+    alto: numero
+  comenzar
+    RecibirMensaje(miEsquina, rj)
+    miAv:= miEsquina
+    miCa:= miEsquina
+    Pos(miAv,miCa)
+    f:= 0
+    RecibirMensaje(alto,rj)
+    HacerRectangulo(f, alto)
+    repetir f
+      BloquearEsquina(10,10)
+      Pos(10,10)
+      depositarFlor
+      Pos(miAv,miCa)
+      LiberarEsquina(10,10)
+    EnviarMensaje(V,rj)
+  fin
+  
+  robot jefe
+  variables
+    unAlto: numero
+    esquina1: numero
+    esquina2: numero
+    suma: numero
+    ok: boolean
+  comenzar
+    Pos(10,10)
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+    Pos(1,1)
+    esquina1:= 15
+    esquina2:= 40
+    EnviarMensaje(esquina1,r1)
+    EnviarMensaje(esquina2,r2)
+    Random(unAlto,1,20)
+    EnviarMensaje(unAlto,r1)
+    Random(unAlto,1,20)
+    EnviarMensaje(unAlto,r2)
+    repetir 2
+      RecibirMensaje(ok,*)
+    suma:= 0
+    Pos(10,10)
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      suma:= suma+1
+    Informar(suma)
+  fin
+
+variables
+  r1: florero
+  r2: florero
+  rj: jefe
+comenzar
+  AsignarArea(r1, AreaR1)
+  AsignarArea(r2, AreaR2)
+  AsignarArea(rj, AreaJ)
+  AsignarArea(r1, AreaRR1) {robots Area}
+  AsignarArea(r2, AreaRR2)
+  AsignarArea(r1, AreaDOS)
+  AsignarArea(r2, AreaDOS)
+  AsignarArea(rj, AreaDOS)
+  Iniciar(r1,2,2) {robots Pos}
+  Iniciar(r2,6,6)
+  Iniciar(rj,1,1)
+fin
+

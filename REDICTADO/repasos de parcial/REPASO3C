@@ -1,0 +1,135 @@
+programa REPASO3
+
+areas
+  areaPJ: AreaP(20,11,20,11) {delimitar area}
+  areaPRF: AreaP(11,12,11,12)
+  areaPRP: AreaP(11,10,11,10)
+  areaPDF: AreaP(12,12,12,12)
+  areaPDP: AreaP(12,10,12,10)
+  fuenteP: AreaP(10,10,10,10)
+  fuenteF: AreaP(10,12,10,12)
+  canchaF: AreaP(13,12,20,12)
+  canchaP: AreaP(13,10,20,10)
+  base: AreaPC(12,11,12,11)
+  
+robots
+  robot RecolectorF
+  variables
+    miAv: numero
+    miCa: numero
+  comenzar
+    miAv:= PosAv
+    miCa:= PosCa
+    repetir 8
+      Pos(10,12)
+      tomarFlor
+      BloquearEsquina(12,11)
+      Pos(12,11)
+      depositarFlor
+      Pos(10,12)
+      LiberarEsquina(12,11)
+    Pos(miAv,miCa)
+  fin
+  
+  robots
+  robot RecolectorP
+  variables
+    miAv: numero
+    miCa: numero
+  comenzar
+    miAv:= PosAv
+    miCa:= PosCa
+    repetir 8
+      Pos(10,10)
+      tomarPapel
+      BloquearEsquina(12,11)
+      Pos(12,11)
+      depositarPapel
+      Pos(10,10)
+      LiberarEsquina(12,11)
+    Pos(miAv,miCa)
+  fin
+  
+  robot DepositadorF
+  variables
+    miAv:numero
+    miCa:numero
+    act: numero
+  comenzar
+    miAv:= PosAv
+    miCa:= PosCa
+    act:= 13
+    repetir 8
+      mientras(NoHayFlorEnLaBolsa)
+        BloquearEsquina(12,11)
+        Pos(12,11)
+        si (HayFlorEnLaEsquina)
+          tomarFlor
+        Pos(miAv,miCa)
+        LiberarEsquina(12,11)
+      Pos(act,12)
+      depositarFlor
+      act:= act+1
+    Pos(miAv,miCa)
+    EnviarMensaje(1,rj)
+  fin
+  
+  robot DepositadorP
+   variables
+    miAv:numero
+    miCa:numero
+    act: numero
+  comenzar
+    miAv:= PosAv
+    miCa:= PosCa
+    act:= 13
+    repetir 8
+      mientras(NoHayFlorEnLaBolsa)
+        BloquearEsquina(12,11)
+        Pos(12,11)
+        si (HayFlorEnLaEsquina)
+          tomarFlor
+        Pos(miAv,miCa)
+        LiberarEsquina(12,11)
+      Pos(act,12)
+      depositarFlor
+      act:= act+1
+    Pos(miAv,miCa)
+    EnviarMensaje(1,rj)
+
+
+  
+  robot Jefe
+  comenzar
+  
+  fin
+
+variables
+  rf: RecolectorF
+  rp: RecolectorP
+  df: DepositadorF
+  dP: DepositadorP
+  rj: jefe
+comenzar
+  AsignarArea(rj, AreaPJ) {robots Area}
+  AsignarArea(rf, AreaPRF)
+  AsignarArea(rp, AreaPRP)
+  AsignarArea(df, AreaPDF)
+  AsignarArea(dp, AreaPDP)
+  AsignarArea(rf, fuenteF)
+  AsignarArea(rp, fuenteP)
+  AsignarArea(rf, base)
+  AsignarArea(rp, base)
+  AsignarArea(df, base)
+  AsignarArea(dp, base)
+  AsignarArea(df, canchaF)
+  AsignarArea(dp, canchaP)
+  Iniciar(rj, 20,11)
+  Iniciar(rf, 11,12)
+  Iniciar(rp, 11,10)
+  Iniciar(df, 12,12)
+  Iniciar(dp, 12,10)
+fin
+
+
+

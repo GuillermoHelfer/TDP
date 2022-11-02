@@ -1,0 +1,170 @@
+programa repaso1
+areas
+  areaP1: AreaP(2,1,2,1)
+  areaP2: AreaP(3,1,3,1)
+  areaP3: AreaP(14,1,14,1)
+  areaP4: AreaP(15,1,15,1)
+  area1: AreaPC(2,2,12,12)
+  area2: AreaPC(14,2,24,12)
+  areaJ: AreaP(1,1,1,1)
+  area13: AreaPC(13,13,13,13)
+
+robots
+  robot florero1
+  variables
+    miCa: numero
+    miAv: numero
+    unaCa: numero
+    unaAv: numero
+    equipo: numero
+  comenzar
+    miAv := PosAv
+    miCa := PosCa
+    RecibirMensaje(equipo,rj)
+    repetir 3
+      Random(unaAv,2,12)
+      Random(unaCa,2,12)
+      BloquearEsquina(unaAv,unaCa)
+      Pos(unaAv,unaCa)
+      mientras(HayFlorEnLaEsquina)
+        tomarFlor
+      Pos(miAv,miCa)
+      LiberarEsquina(unaAv,unaCa)
+    EnviarMensaje(equipo,rj)
+  fin
+  
+  robot florero2
+  variables
+    miCa: numero
+    miAv: numero
+    unaCa: numero
+    unaAv: numero
+    equipo: numero
+  comenzar
+    miAv := PosAv
+    miCa := PosCa
+    RecibirMensaje(equipo,rj)
+    repetir 3
+      Random(unaAv,14,24)
+      Random(unaCa,2,12)
+      BloquearEsquina(unaAv,unaCa)
+      Pos(unaAv,unaCa)
+      jmientras(HayFlorEnLaEsquina)
+        tomarFlor
+
+      Pos(miAv,miCa)
+      LiberarEsquina(unaAv,unaCa)
+    EnviarMensaje(equipo,rj)
+  fin
+
+  
+  robot papelero1
+  variables
+    miCa: numero
+    miAv: numero
+    unaCa: numero
+    unaAv: numero
+    equipo: numero
+  comenzar
+    miAv := PosAv
+    miCa := PosCa
+    RecibirMensaje(equipo,rj)
+    repetir 5
+      BloquearEsquina(13,13)
+      Pos(13,13)
+      tomarPapel
+      Pos(miAv,miCa)
+      LiberarEsquina (13,13)
+      
+      Random(unaAv,2,12)
+      Random(unaCa,2,12)
+      BloquearEsquina(unaAv,unaCa)
+      Pos(unaAv,unaCa)
+      depositarPapel
+      Pos(miAv,miCa)
+      LiberarEsquina(unaAv,unaCa)
+    EnviarMensaje(equipo,rj)
+  fin
+  
+  robot papelero2
+  variables
+    miCa: numero
+    miAv: numero
+    unaCa: numero
+    unaAv: numero
+    equipo: numero
+  comenzar
+    miAv := PosAv
+    miCa := PosCa
+    RecibirMensaje(equipo,rj)
+    repetir 5
+      BloquearEsquina(13,13)
+      Pos(13,13)
+      tomarPapel
+      Pos(miAv,miCa)
+      LiberarEsquina (13,13)
+      
+      Random(unaAv,14,24)
+      Random(unaCa,2,12)
+      BloquearEsquina(unaAv,unaCa)
+      Pos(unaAv,unaCa)
+      Pos(miAv,miCa)
+      LiberarEsquina(unaAv,unaCa)
+    EnviarMensaje(equipo,rj)
+  fin
+
+  
+  robot jefe
+  variables
+    unEquipo: numero
+    e1: numero
+    e2: numero
+    ganador: numero
+  comenzar
+    e1:=0
+    e2:=0
+    ganador :=0
+  
+    EnviarMensaje(1,rf1)
+    EnviarMensaje(1,rp1)
+    EnviarMensaje(2,rf2)
+    EnviarMensaje(2,rp2)
+    
+    mientras(ganador = 0)
+      RecibirMensaje(unEquipo,*)
+      si (unEquipo = 1)
+        e1:= e1+1
+      sino
+        e2:= e2+1
+      si(e1 = 2)
+        ganador := 1
+      si(e2 = 2)
+        ganador := 2
+    Informar(ganador)
+  fin
+
+variables
+  rf1: florero1
+  rf2: florero2
+  rp1: papelero1
+  rp2: papelero2
+  rj: jefe
+comenzar
+  AsignarArea(rf1,area1)
+  AsignarArea(rp1,area1)
+  AsignarArea(rf2,area2)
+  AsignarArea(rp2,area2)
+  AsignarArea(rj,areaJ)
+  AsignarArea(rf1,areaP1)
+  AsignarArea(rp1,areaP2)
+  AsignarArea(rf2,areaP3)
+  AsignarArea(rp2,areaP4)
+  AsignarArea(rp1,area13)
+  AsignarArea(rp2,area13)
+  Iniciar(rf1,2,1)
+  Iniciar(rp1,3,1)
+  Iniciar(rf2,14,1)
+  Iniciar(rp2,15,1)
+  Iniciar(rj,1,1)
+fin
+

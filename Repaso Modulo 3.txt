@@ -1,0 +1,93 @@
+MODULO 3:
+	CONCURRENCIA:
+		Un programa concurrente se divide en tareas (2 o mas), las
+		cuales se ejecutan al mismo tiempo y realizan acciones para
+		cumplir un objetivo comun. Para esto pueden: compartir recursos,
+		coordinarse, y cooperar.
+		
+		Envio de mensajes:
+			Es necesario establecer un CANAL para transmitir info entre
+			procesos.
+			Tambien el lenguaje debe proveer un protocolo adecuado.
+			Para que la comunicacion sea efectiva los procesos deben
+			'saber' cuando tienen mensajes para leer y cuando deben
+			transmitir mensajes.
+		Cuerpo de un mensaje: 
+			Origen, destino, contenido.
+		Memoria compartida:
+			Los procesos intercambian info sobre la memoria compartida
+			o actuan coordinadamente sobre datos residenciales en ella.
+			Logicamente no pueden operar simultaneamente sobre la
+			memoria compartida, lo que obliga a bloquear y desbloquear
+			el acceso a la memoria.
+			La solucion mas elemental es una variable de control que
+			habilite o no el acceso de un proceso a la variable
+			compartida.
+		
+		Estructura de un programa:
+			programa nombre 
+
+			procesos 
+			// Procesos utilizados por los robots
+
+			areas
+			// Áreas de la ciudad
+
+			robots 
+			// Robots del programa
+    
+			variables 
+			// Variables robots
+		
+			comenzar
+			// Asignación de áreas 
+			// Inicialización de robots 
+			fin 
+		
+		Tipos de areas:
+			AreaC(area compartida): 
+				todos los robots pueden o no ocupar un espacio dentro 
+				de esta area.
+			AreaPC(area parcialmente compartida):
+				Se deben seleccionar que subconjunto de robots pueden
+				circular por la misma.
+			AreaP(area privada):
+				Solo puede haber en ella un unico robot
+	PASAJE DE MENSAJES:
+		Sintaxis:
+			EnviarMensaje(contenido,destino)
+		Asincronico:
+			Un robot despues de enviar un mensaje puede continuar su
+			ejecucion.
+	RECEPCION DE MENSAJES
+		Sintaxis:
+			RecibirMensaje(contenido,origen)
+		Sincronico:
+			Un robot que esta esperando recibir un mensaje no puede
+			continuar su ejecucion hasta que otro robot no le haya
+			mandado un mensaje.
+	ID-FICACION DE ROBOTS:
+		El robot jefe debe enviar un mensaje definiendo el ID del robot
+		El robot debe recibir el mensaje enviado por el jefe
+		
+	MANEJO DE RECURSOS:
+		Bloquear:
+			Dado un recurso DISPONIBLE el programador bloquea dicho
+			recurso para que ningun otro proceso pueda acceder a el.
+			Sintaxis:
+			BloquearEsquina(avenida,calle)
+			Si la esquina NO ESTA BLOQUEADA, se bloquea y el proceso
+			sigue su ejecucion.
+			Si la esquina ESTA BLOQUEADA, el proceso queda 'esperando'
+			(polling) para poder ejecutar la instruccion de bloqueo
+			hasta que la esquina NO este bloqueada.
+			
+		Desbloquear:
+			Dado un recurso BLOQUEADO el programador libera dicho
+			recurso para que cualquier proceso pueda bloqeuarlo.
+		Sintaxis:
+			LiberarEsquina(avenida,calle)
+			Si la esquina ESTA BLOQUEADA, se desbloquea y el proceso
+			sigue su ejecucion.
+			Si la esquina NO ESTA BLOQUEADA, no hace nada
+		

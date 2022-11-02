@@ -1,0 +1,95 @@
+programa PRACTICADIAANTESCONCURRENCIA
+procesos
+  proceso juntarFlores(ES f: flores)
+  comenzar
+    Mientras(HayFlorEnLaEsquina)
+      tomarPapel
+      f:= f+1
+  fin
+areas
+  areaPJ: AreaP(1,1,1,1)
+  areaPR1: AreaP(5,1,5,1)
+  areaPR2: AreaP(6,1,6,1)
+  areaPR3: AreaP(7,1,7,1)
+  areaPRR1: AreaP(5,1,5,10)
+  areaPRR1: AreaP(6,1,6,10)
+  areaPRR1: AreaP(7,1,7,10)
+robots
+  robot recolector
+  variables
+    miID: numero
+    miAv: numero
+    miCa: numero
+    f: numero
+    idMin: numero
+  comenzar
+    miAv := PosAv
+    miCa := PosCa
+    RecibirMensaje(miID,rj)
+    repetir 10
+      juntarFlores(f)
+      mover
+    EnviarMensaje(miID,rj)
+    EnviarMensaje(f,rj)
+    Pos(miAv,miCa)
+    RecibirMensaje(idMin,rj)
+    si (idMin != miID)
+      repetir 10
+        Mientras(HayPapelEnLaEsquina)
+          tomarPapel
+        mover
+      EnviarMensaje(miID,rj)
+  fin
+  
+  robot jefe
+  variables
+    unID: numero
+    ganador: numero
+    flo: numero
+    idMin: numero
+    min: numero
+  comenzar
+    min := 9999
+    EnviarMensaje(1,r1)
+    EnviarMensaje(2,r2)
+    EnviarMensjae(3,r3)
+    repetir 3
+      RecibirMensaje(unID,*)
+      si (unID = 1)
+        RecibirMensaje(flo,r1)
+      sino
+        si(unID = 2)
+          RecibirMensaje(flo,r2)
+        sino
+          RecibirMensaje(flo,r3)
+      si flo < min
+        min:= flo
+        idMin:= unID
+    EnviarMensaje(idMin,r1)
+    EnviarMensaje(idMin,r2)
+    EnviarMensaje(idMin,r3)
+    
+    RecibirMensaje(unID,*)
+    Informar('GanadorRobot', id)
+    RecibirMensaje(unID,*)
+  fin
+  
+variables
+  r1: recolector
+  r2: recolector
+  r3: recolector
+  rj: jefe
+comenzar
+  AsignarArea(r1,AreaPR1)
+  AsignarArea(r2,AreaPR2)
+  AsignarArea(r3,AreaPR3)
+  AsignarArea(rj,AreaPJ)
+  AsignarArea(r1,AreaPRR1)
+  AsignarArea(r2,AreaPRR2)
+  AsignarArea(r3,AreaPRR3)
+
+  Iniciar(rj,1,1)
+  Iniciar(r1,5,1)
+  Iniciar(r2,6,1)
+  Iniciar(r3,7,1)
+fin
